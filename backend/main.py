@@ -12,8 +12,17 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column, sess
 # --- Database setup -------------------------------------------------------
 # Online, set DATABASE_URL to a PostgreSQL connection string.
 # Locally, it falls back to SQLite: a single file (todos.db) next to this script.
-DATABASE_URL = os.environ.get("DATABASE_URL")
+DATABASE_URL = os.environ.get("DATABASE_URL", "").strip()
+# Tolerate common copy-paste extras, e.g. psql 'postgresql://...' or surrounding quotes.
+if DATABASE_URL.startswith("psql "):
+    DATABASE_URL = DATABASE_URL[len("psql "):].strip()
+DATABASE_URL = DATABASE_URL.strip("'\"")
 if DATABASE_URL:
+    if not DATABASE_URL.startswith(("postgres://", "postgresql://")):
+        raise SystemExit(
+            "DATABASE_URL must start with postgresql:// "
+            f"(it currently starts with {DATABASE_URL[:12]!r}). Check the value in your hosting settings."
+        )
     # Hosting providers hand out "postgres://..." URLs; tell SQLAlchemy to use psycopg.
     DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql+psycopg://", 1)
     DATABASE_URL = DATABASE_URL.replace("postgresql://", "postgresql+psycopg://", 1)
