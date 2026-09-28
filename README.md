@@ -81,3 +81,25 @@ When you're done, run `npm run build` again so the version on port 8000 is up to
 | PATCH  | /api/todos/{id}       | Update `{"title": ...}` / `{"done": true}` |
 | DELETE | /api/todos/{id}       | Delete a task                              |
 | PUT    | /api/todos/reorder    | Save a new order `{"ids": [3,1,2]}`        |
+
+## Publishing it on the internet
+
+The app is packaged with a `Dockerfile`, so hosting services know how to build and run it.
+We use **Render** to run the app and **Neon** for a free PostgreSQL database.
+(Render's free servers erase their disk on restart, so SQLite would lose your tasks there.)
+
+1. **Put the code on GitHub.** Create a free account at github.com and a new repository, then push this folder to it.
+2. **Create the database.** Sign up at neon.tech, create a project, and copy its
+   **connection string**. It looks like `postgresql://user:password@host/dbname?sslmode=require`.
+   Treat it like a password.
+3. **Create the web service.** Sign up at render.com with your GitHub account, click
+   **New → Web Service**, and pick your repository. Render sees the `Dockerfile` automatically.
+   Choose the **Free** instance type.
+4. Under **Environment Variables**, add `DATABASE_URL` and paste the Neon connection string as its value.
+5. Click **Create Web Service**. After a few minutes you get a link like
+   `https://your-app.onrender.com`. That's your live to-do list.
+
+Every time you push new code to GitHub, Render rebuilds and republishes automatically.
+
+Note: free Render services go to sleep when unused, so the first visit after a while can take up to about a minute to load.
+Also note that anyone with the link can see and edit the list, because the app has no login.
