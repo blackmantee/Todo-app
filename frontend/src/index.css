@@ -1,0 +1,55 @@
+:root {
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  color: #1f2937;
+  background: #f3f4f6;
+}
+* { box-sizing: border-box; }
+body { margin: 0; }
+
+.app {
+  max-width: 560px;
+  margin: 48px auto;
+  padding: 24px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgb(0 0 0 / 0.08);
+}
+h1 { margin: 0 0 20px; font-size: 1.75rem; }
+
+.add { display: flex; gap: 8px; margin-bottom: 16px; }
+.add input {
+  flex: 1; padding: 10px 12px; font-size: 1rem;
+  border: 1px solid #d1d5db; border-radius: 8px;
+}
+.add input:focus { outline: 2px solid #6366f1; border-color: transparent; }
+.add button {
+  padding: 10px 18px; font-size: 1rem; border: none; border-radius: 8px;
+  background: #6366f1; color: #fff; cursor: pointer;
+}
+.add button:hover { background: #4f46e5; }
+
+.list { list-style: none; padding: 0; margin: 0; }
+.todo {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 8px; margin-bottom: 6px;
+  background: #fff; border: 1px solid #e5e7eb; border-radius: 8px;
+}
+.todo.dragging { box-shadow: 0 8px 20px rgb(0 0 0 / 0.15); position: relative; z-index: 1; }
+
+.todo label { flex: 1; display: flex; align-items: center; gap: 10px; cursor: pointer; }
+.todo input[type='checkbox'] { width: 18px; height: 18px; accent-color: #6366f1; }
+.todo label.done span { text-decoration: line-through; color: #9ca3af; }
+
+.handle, .delete {
+  border: none; background: none; cursor: grab; color: #9ca3af;
+  font-size: 1.1rem; padding: 4px 6px; border-radius: 4px; touch-action: none;
+}
+.delete { cursor: pointer; }
+.delete:hover { color: #ef4444; background: #fef2f2; }
+
+.count, .empty { color: #6b7280; font-size: 0.9rem; margin: 12px 0 0; }
+.error { color: #b91c1c; }
+
+@media (max-width: 600px) {
+  .app { margin: 0; border-radius: 0; min-height: 100vh; }
+}
